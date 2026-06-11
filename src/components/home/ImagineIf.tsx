@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useScroll,
@@ -24,7 +24,19 @@ export function ImagineIf({ t }: { t: Dict }) {
     target: ref,
     offset: ["start start", "end end"],
   });
+  // Pan the backdrop with scroll: vertically on desktop, horizontally on mobile
+  // (the wide image is cropped sideways on narrow viewports, so x reveals more).
   const bgY = useTransform(scrollYProgress, [0, 1], ["0vh", "-50vh"]);
+  const bgX = useTransform(scrollYProgress, [0, 1], ["0vw", "-50vw"]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   if (reduce) {
     return (
@@ -68,8 +80,12 @@ export function ImagineIf({ t }: { t: Dict }) {
           src="/people.jpg"
           alt=""
           aria-hidden="true"
-          style={{ y: bgY }}
-          className="absolute inset-x-0 top-0 h-[150vh] w-full object-cover"
+          style={isMobile ? { x: bgX } : { y: bgY }}
+          className={
+            isMobile
+              ? "absolute inset-y-0 left-0 h-full w-[150vw] max-w-none object-cover"
+              : "absolute inset-x-0 top-0 h-[150vh] w-full object-cover"
+          }
         />
         <div className="absolute inset-0 bg-[#13132D]/38" />
 

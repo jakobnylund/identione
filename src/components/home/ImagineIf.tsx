@@ -98,7 +98,7 @@ export function ImagineIf({ t }: { t: Dict }) {
                 src="/people.jpg"
                 alt=""
                 aria-hidden="true"
-                style={{ ...pan, opacity: bg2Opacity }}
+                style={{ ...pan, opacity: isMobile ? 0 : bg2Opacity }}
                 className={imgClass}
               />
             </>

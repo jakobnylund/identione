@@ -36,7 +36,7 @@ export const en = {
   hero: {
     line1: "Identity should adapt to your world.",
     line2: "Not the other way around.",
-    body: "The world has changed. People move between organizations, relationships and responsibilities every day. Yet most identity systems still treat them as if they were static. We believe it's time to rethink identity.",
+    body: "The world has changed. People move between roles and responsibilities every day. Most identity systems still treat them as static.",
     cta: "Discover our perspective",
   },
   problem: {

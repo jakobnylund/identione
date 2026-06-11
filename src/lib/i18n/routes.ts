@@ -5,7 +5,6 @@ import { LOCALES, isLocale, type Locale } from "./types";
 // Add new pages here as content lands.
 export const routes = {
   home: { en: "", sv: "" },
-  contact: { en: "contact", sv: "kontakt" },
   privacy: { en: "privacy", sv: "integritet" },
 } as const satisfies Record<string, Record<Locale, string>>;
 

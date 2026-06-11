@@ -27,7 +27,7 @@ export function Hero({ t }: { t: Dict }) {
         }}
       />
 
-      <div className="page-grid relative w-full pb-24 pt-32">
+      <div className="page-grid relative w-full pb-24 pt-24">
         <div className="col-span-12 lg:col-span-11">
           <Reveal>
             <h1 className="headline-xl max-w-[18ch] text-white">

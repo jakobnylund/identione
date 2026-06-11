@@ -38,7 +38,7 @@ export function BuiltAroundPeople({ t }: { t: Dict }) {
           <LoopVideo
             src="/silhouette.mp4"
             poster="/silhouette-poster.jpg"
-            className="aspect-[16/10] w-full object-cover ring-1 ring-border"
+            className="aspect-[16/10] w-full object-cover ring-1 ring-border [filter:hue-rotate(-25deg)_saturate(0.95)]"
           />
         </Reveal>
 

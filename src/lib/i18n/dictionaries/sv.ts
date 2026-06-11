@@ -34,7 +34,7 @@ export const sv: Dict = {
   hero: {
     line1: "Identitet borde anpassa sig efter din värld.",
     line2: "Inte tvärtom.",
-    body: "Världen har förändrats. Människor rör sig mellan organisationer, relationer och ansvar varje dag. Ändå behandlar de flesta identitetssystem dem som om de vore statiska. Vi tror att det är dags att tänka om kring identitet.",
+    body: "Världen har förändrats. Människor rör sig mellan roller och ansvar varje dag. De flesta identitetssystem behandlar dem fortfarande som statiska.",
     cta: "Upptäck vårt perspektiv",
   },
   problem: {

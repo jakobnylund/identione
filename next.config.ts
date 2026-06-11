@@ -6,8 +6,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async rewrites() {
     return [
-      { source: "/sv/kontakt", destination: "/sv/contact" },
-      { source: "/sv/kontakt/:path*", destination: "/sv/contact/:path*" },
       { source: "/sv/integritet", destination: "/sv/privacy" },
       { source: "/sv/integritet/:path*", destination: "/sv/privacy/:path*" },
     ];

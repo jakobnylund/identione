@@ -26,19 +26,9 @@ export function Problem({ t }: { t: Dict }) {
           ))}
         </ol>
 
-        {/* Closing statement — left-anchored like every other block. Lead in blue. */}
+        {/* Closing statement — left-anchored like every other block. */}
         <Reveal className="col-span-12 mt-12 md:mt-20 lg:col-span-8">
-          <p className="headline-lg text-text">
-            {(() => {
-              const [lead, ...rest] = t.problem.closing.split(". ");
-              return (
-                <>
-                  <span className="lead-accent">{lead}.</span>{" "}
-                  {rest.join(". ")}
-                </>
-              );
-            })()}
-          </p>
+          <p className="headline-lg text-text">{t.problem.closing}</p>
         </Reveal>
       </div>
     </section>

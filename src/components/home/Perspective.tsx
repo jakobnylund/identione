@@ -17,17 +17,7 @@ export function Perspective({ t }: { t: Dict }) {
         {/* Headline carries the section; lead sentence in Identione Blue.
             Body stacked left underneath, aligned to the same column line. */}
         <Reveal className="col-span-12 lg:col-span-8">
-          <h2 className="headline-xl text-text">
-            {(() => {
-              const [lead, ...rest] = t.perspective.headline.split(". ");
-              return (
-                <>
-                  <span className="lead-accent">{lead}.</span>{" "}
-                  {rest.join(". ")}
-                </>
-              );
-            })()}
-          </h2>
+          <h2 className="headline-xl text-text">{t.perspective.headline}</h2>
         </Reveal>
 
         <Reveal className="col-span-12 mt-10 lg:col-span-5" delay={0.12}>

@@ -28,9 +28,9 @@ export function ImagineIf({ t }: { t: Dict }) {
   });
   // Pan the backdrop with scroll: vertically on desktop, horizontally on mobile
   // (the wide image is cropped sideways on narrow viewports, so x reveals more).
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0vh", "-50vh"]);
-  const bgX = useTransform(scrollYProgress, [0, 1], ["0vw", "-50vw"]);
-  const bg2Opacity = useTransform(scrollYProgress, [0.42, 0.6], [0, 1]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0vh", "-28vh"]);
+  const bgX = useTransform(scrollYProgress, [0, 1], ["0vw", "-28vw"]);
+  const bg2Opacity = useTransform(scrollYProgress, [0.47, 0.53], [0, 1]);
   const [isMobile, setIsMobile] = useState(false);
   const [pastMid, setPastMid] = useState(false);
 

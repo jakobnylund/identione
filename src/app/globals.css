@@ -225,14 +225,14 @@ body {
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
-/* Small purple marker rectangle before every section eyebrow. */
+/* Small blue marker rectangle before every section eyebrow. */
 .section-label::before {
   content: "";
   display: block;
   width: 1.4rem;
   height: 0.5rem;
   flex: none;
-  background: var(--color-purple);
+  background: var(--color-accent);
 }
 
 /* Editorial section index — a small monospaced run-in number paired with the

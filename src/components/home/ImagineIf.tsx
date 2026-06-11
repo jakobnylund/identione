@@ -72,7 +72,7 @@ export function ImagineIf({ t }: { t: Dict }) {
       ref={ref}
       id="imagine"
       className="theme-dark relative"
-      style={{ height: `${cards.length * 65}vh` }}
+      style={{ height: `${cards.length * 100}vh` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Photographic backdrop, panning vertically with scroll. */}

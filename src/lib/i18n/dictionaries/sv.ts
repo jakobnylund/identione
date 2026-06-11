@@ -105,6 +105,7 @@ export const sv: Dict = {
     body: "Vissa saker upplevs bättre än de förklaras. Om du vill utforska hur det här perspektivet kan appliceras på din organisation pratar vi gärna.",
     button: "Boka ett samtal",
   },
+  closing: "För att människor är mer än vad ett dokument kan beskriva.",
   footer: {
     tagline: "Identitet, omdefinierad.",
     rights: "Alla rättigheter förbehållna.",

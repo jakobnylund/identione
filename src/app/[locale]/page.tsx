@@ -9,6 +9,7 @@ import { BuiltAroundPeople } from "@/components/home/BuiltAroundPeople";
 import { WhereItMatters } from "@/components/home/WhereItMatters";
 import { About } from "@/components/home/About";
 import { CallToAction } from "@/components/home/CallToAction";
+import { Reveal } from "@/components/Reveal";
 
 // Single-page scroll landing. Sections follow the brief's narrative arc:
 // problem → perspective → possibility → people → relevance → company → invite.
@@ -32,6 +33,17 @@ export default async function HomePage({
       <WhereItMatters t={t} />
       <About t={t} />
       <CallToAction t={t} />
+
+      {/* Closing thought — a quiet final imprint just above the footer. */}
+      <section className="theme-dark bg-surface">
+        <div className="page-contain border-t border-border py-28 md:py-40">
+          <Reveal>
+            <p className="headline-lg max-w-[24ch] text-white/70">
+              {t.closing}
+            </p>
+          </Reveal>
+        </div>
+      </section>
     </>
   );
 }

@@ -107,6 +107,7 @@ export const en = {
     body: "Some things are better experienced than explained. If you'd like to explore how this perspective could apply to your organization, we'd love to talk.",
     button: "Book a conversation",
   },
+  closing: "Because people are more than what a document can describe.",
   footer: {
     tagline: "Identity, redefined.",
     rights: "All rights reserved.",

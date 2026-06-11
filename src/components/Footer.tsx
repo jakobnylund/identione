@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getServerDict } from "@/lib/i18n/server";
 import { localizedHref } from "@/lib/i18n/routes";
 import { brand } from "@/lib/brand";
-import { Symbol } from "./Symbol";
 import type { Locale } from "@/lib/i18n/types";
 
 export function Footer({ locale }: { locale: Locale }) {
@@ -20,9 +19,6 @@ export function Footer({ locale }: { locale: Locale }) {
 
   return (
     <footer className="theme-dark aurora relative overflow-hidden">
-      {/* Faint brand mark bleeding off the right edge — texture, not decoration. */}
-      <Symbol className="pointer-events-none absolute -right-20 top-1/2 hidden h-[380px] w-auto -translate-y-1/2 text-white/[0.04] lg:block" />
-
       <div className="page-grid relative pt-24 pb-16">
         {/* Columns */}
         <nav className="col-span-6 md:col-span-3">
@@ -63,13 +59,18 @@ export function Footer({ locale }: { locale: Locale }) {
           </ul>
         </div>
 
-        <address className="col-span-12 mt-10 not-italic md:col-span-3 md:col-start-9 md:mt-0">
-          <p className="section-label mb-5">{sv ? "Kontor" : "Office"}</p>
-          <p className="text-sm leading-relaxed text-text-muted">
-            {brand.address}
-            <br />
-            {brand.country}
-          </p>
+        <address className="col-span-12 mt-10 flex flex-col gap-5 not-italic md:col-span-3 md:col-start-9 md:mt-0">
+          <p className="section-label">{sv ? "Kontor" : "Offices"}</p>
+          {brand.offices.map((office) => (
+            <p
+              key={office.city}
+              className="text-sm leading-relaxed text-text-muted"
+            >
+              <span className="text-text">{office.city}</span>
+              <br />
+              {office.lines.join(", ")}
+            </p>
+          ))}
         </address>
       </div>
 

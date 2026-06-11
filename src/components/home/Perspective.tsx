@@ -6,11 +6,11 @@ export function Perspective({ t }: { t: Dict }) {
   return (
     <section
       id="perspective"
-      className="theme-dark aurora relative overflow-hidden py-28 md:py-40"
+      className="theme-dark aurora relative overflow-hidden py-20 md:py-40"
     >
       <DotMatrix className="absolute inset-0 h-full w-full" />
       <div className="page-grid relative z-10">
-        <div className="col-span-12 mb-14 flex items-baseline gap-4">
+        <div className="col-span-12 mb-10 md:mb-14 flex items-baseline gap-4">
           <span className="section-label">{t.perspective.label}</span>
         </div>
 

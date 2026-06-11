@@ -3,9 +3,9 @@ import { Reveal } from "@/components/Reveal";
 
 export function Problem({ t }: { t: Dict }) {
   return (
-    <section id="problem" className="bg-surface py-28 md:py-40">
+    <section id="problem" className="bg-surface py-20 md:py-40">
       <div className="page-grid">
-        <div className="col-span-12 mb-14 flex items-baseline gap-4">
+        <div className="col-span-12 mb-10 md:mb-14 flex items-baseline gap-4">
           <span className="section-label">{t.problem.label}</span>
         </div>
 
@@ -27,7 +27,7 @@ export function Problem({ t }: { t: Dict }) {
         </ol>
 
         {/* Closing statement — left-anchored like every other block. Lead in blue. */}
-        <Reveal className="col-span-12 mt-20 lg:col-span-8">
+        <Reveal className="col-span-12 mt-12 md:mt-20 lg:col-span-8">
           <p className="headline-lg text-text">
             {(() => {
               const [lead, ...rest] = t.problem.closing.split(". ");

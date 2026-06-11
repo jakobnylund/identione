@@ -6,9 +6,9 @@ import { LoopVideo } from "@/components/LoopVideo";
 // on the right, then the trust statement full-width below.
 export function BuiltAroundPeople({ t }: { t: Dict }) {
   return (
-    <section id="people" className="theme-dark aurora py-28 md:py-40">
+    <section id="people" className="theme-dark aurora py-20 md:py-40">
       <div className="page-grid">
-        <div className="col-span-12 mb-14 flex items-baseline gap-4">
+        <div className="col-span-12 mb-10 md:mb-14 flex items-baseline gap-4">
           <span className="section-label">{t.people.label}</span>
         </div>
 
@@ -33,7 +33,7 @@ export function BuiltAroundPeople({ t }: { t: Dict }) {
         <Reveal
           variant="clip"
           delay={0.1}
-          className="col-span-12 mt-12 lg:col-span-6 lg:col-start-7 lg:mt-0 lg:self-center"
+          className="col-span-12 mt-8 md:mt-12 lg:col-span-6 lg:col-start-7 lg:mt-0 lg:self-center"
         >
           <LoopVideo
             src="/silhouette.mp4"
@@ -43,7 +43,7 @@ export function BuiltAroundPeople({ t }: { t: Dict }) {
         </Reveal>
 
         {/* Key statement — full width, the emotional anchor. */}
-        <Reveal className="col-span-12 mt-24 lg:col-span-9">
+        <Reveal className="col-span-12 mt-14 md:mt-24 lg:col-span-9">
           <p className="headline-xl max-w-[20ch] text-accent-soft">
             {t.people.statement}
           </p>

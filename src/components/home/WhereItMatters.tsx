@@ -5,9 +5,9 @@ import { Reveal } from "@/components/Reveal";
 // index number, hairline, title, body. Grouped by border, not boxed cards.
 export function WhereItMatters({ t }: { t: Dict }) {
   return (
-    <section id="where" className="bg-surface py-28 md:py-40">
+    <section id="where" className="bg-surface py-20 md:py-40">
       <div className="page-grid">
-        <div className="col-span-12 mb-16 flex items-baseline gap-4">
+        <div className="col-span-12 mb-10 md:mb-16 flex items-baseline gap-4">
           <span className="section-label">{t.where.label}</span>
         </div>
 

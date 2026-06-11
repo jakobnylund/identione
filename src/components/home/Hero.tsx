@@ -37,7 +37,7 @@ export function Hero({ t }: { t: Dict }) {
           </Reveal>
         </div>
 
-        <div className="col-span-12 mt-12 flex flex-col gap-8 md:col-span-7 lg:col-span-5">
+        <div className="col-span-12 mt-8 md:mt-12 flex flex-col gap-8 md:col-span-7 lg:col-span-5">
           <Reveal delay={0.12}>
             <p className="subhead !text-white/80">{t.hero.body}</p>
           </Reveal>

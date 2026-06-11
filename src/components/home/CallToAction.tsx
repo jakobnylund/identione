@@ -7,11 +7,11 @@ export function CallToAction({ t }: { t: Dict }) {
   return (
     <section
       id="contact"
-      className="theme-dark aurora-purple relative overflow-hidden py-28 md:py-40"
+      className="theme-dark aurora-purple relative overflow-hidden py-20 md:py-40"
     >
       <DotMatrix className="absolute inset-0 h-full w-full" />
       <div className="page-grid relative z-10">
-        <div className="col-span-12 mb-14 flex items-baseline gap-4">
+        <div className="col-span-12 mb-10 md:mb-14 flex items-baseline gap-4">
           <span className="section-label">{t.cta.label}</span>
         </div>
 
@@ -21,7 +21,7 @@ export function CallToAction({ t }: { t: Dict }) {
           </h2>
         </Reveal>
 
-        <div className="col-span-12 mt-12 flex flex-col gap-8 md:col-span-7 lg:col-span-5">
+        <div className="col-span-12 mt-8 md:mt-12 flex flex-col gap-8 md:col-span-7 lg:col-span-5">
           <Reveal delay={0.1}>
             <p className="subhead !text-white/80">{t.cta.body}</p>
           </Reveal>

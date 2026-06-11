@@ -30,7 +30,7 @@ export function ImagineIf({ t }: { t: Dict }) {
     return (
       <section
         id="imagine"
-        className="theme-dark relative overflow-hidden py-28 md:py-40"
+        className="theme-dark relative overflow-hidden py-20 md:py-40"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

@@ -3,9 +3,9 @@ import { Reveal } from "@/components/Reveal";
 
 export function About({ t }: { t: Dict }) {
   return (
-    <section id="about" className="theme-dark py-28 md:py-40">
+    <section id="about" className="theme-dark py-20 md:py-40">
       <div className="page-grid">
-        <div className="col-span-12 mb-14 flex items-baseline gap-4">
+        <div className="col-span-12 mb-10 md:mb-14 flex items-baseline gap-4">
           <span className="section-label">{t.about.label}</span>
         </div>
 

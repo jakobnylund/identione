@@ -21,7 +21,7 @@ export function Footer({ locale }: { locale: Locale }) {
   return (
     <footer className="theme-dark aurora relative overflow-hidden">
       {/* Faint brand mark bleeding off the right edge — texture, not decoration. */}
-      <Symbol className="pointer-events-none absolute -right-20 top-1/2 h-[420px] w-auto -translate-y-1/2 text-white/[0.035]" />
+      <Symbol className="pointer-events-none absolute -right-20 top-1/2 hidden h-[380px] w-auto -translate-y-1/2 text-white/[0.04] lg:block" />
 
       <div className="page-grid relative pt-24 pb-16">
         {/* Columns */}

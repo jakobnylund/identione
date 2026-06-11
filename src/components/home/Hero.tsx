@@ -2,7 +2,6 @@ import type { Dict } from "@/lib/i18n";
 import { Reveal } from "@/components/Reveal";
 import { HeroVideo } from "@/components/HeroVideo";
 import { Symbol } from "@/components/Symbol";
-import { CellButton } from "@/components/CellButton";
 
 export function Hero({ t }: { t: Dict }) {
   return (
@@ -43,7 +42,7 @@ export function Hero({ t }: { t: Dict }) {
             <p className="subhead !text-white/80">{t.hero.body}</p>
           </Reveal>
           <Reveal delay={0.2}>
-            <CellButton
+            <a
               href="#perspective"
               className="group inline-flex w-fit items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-deep"
             >
@@ -51,7 +50,7 @@ export function Hero({ t }: { t: Dict }) {
               <span className="transition-transform duration-300 group-hover:translate-x-1">
                 →
               </span>
-            </CellButton>
+            </a>
           </Reveal>
         </div>
       </div>

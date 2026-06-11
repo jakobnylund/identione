@@ -6,16 +6,18 @@ import {
   useScroll,
   useTransform,
   useMotionTemplate,
+  useMotionValueEvent,
   useReducedMotion,
   type MotionValue,
 } from "framer-motion";
 import type { Dict } from "@/lib/i18n";
 
 // Imagine If as a dreamy, centered, pinned sequence over a photographic
-// backdrop. The background pans vertically with scroll so the
-// whole image is revealed across the section, behind the statements that fade
-// through. Statements are scroll-scrubbed (nothing skipped) and dropped from
-// render once past (display:none) so nothing ghosts. Reduced-motion → static.
+// backdrop. The background pans with scroll and crossfades people2 -> people.
+// Desktop scrubs the crossfade on scroll progress. Mobile uses a hysteresis
+// threshold (cross 0.55 to show, 0.45 to hide) + a timed fade, so the address
+// bar resizing the viewport mid-scroll cannot make it bounce. Statements are
+// scroll-scrubbed and dropped once past (display:none). Reduced-motion → static.
 export function ImagineIf({ t }: { t: Dict }) {
   const reduce = useReducedMotion();
   const cards = t.imagine.cards;
@@ -28,9 +30,9 @@ export function ImagineIf({ t }: { t: Dict }) {
   // (the wide image is cropped sideways on narrow viewports, so x reveals more).
   const bgY = useTransform(scrollYProgress, [0, 1], ["0vh", "-50vh"]);
   const bgX = useTransform(scrollYProgress, [0, 1], ["0vw", "-50vw"]);
-  // Crossfade the backdrop from people2.jpg to people.jpg around mid-scroll.
   const bg2Opacity = useTransform(scrollYProgress, [0.42, 0.6], [0, 1]);
   const [isMobile, setIsMobile] = useState(false);
+  const [pastMid, setPastMid] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 767px)");
@@ -39,6 +41,12 @@ export function ImagineIf({ t }: { t: Dict }) {
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
   }, []);
+
+  // Hysteresis so jitter around the midpoint (mobile address-bar resize) can't
+  // flip the crossfade back and forth.
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    setPastMid((p) => (v > 0.55 ? true : v < 0.45 ? false : p));
+  });
 
   if (reduce) {
     return (
@@ -69,6 +77,19 @@ export function ImagineIf({ t }: { t: Dict }) {
     );
   }
 
+  const imgClass = isMobile
+    ? "absolute inset-y-0 left-0 h-full w-[150vw] max-w-none object-cover"
+    : "absolute inset-x-0 top-0 h-[150vh] w-full object-cover";
+  const pan = isMobile ? { x: bgX } : { y: bgY };
+  // Overlay (people.jpg) crossfade: scrubbed on desktop, timed+hysteresis on mobile.
+  const overlayProps = isMobile
+    ? {
+        style: pan,
+        animate: { opacity: pastMid ? 1 : 0 },
+        transition: { duration: 0.7, ease: "easeInOut" as const },
+      }
+    : { style: { ...pan, opacity: bg2Opacity } };
+
   return (
     <section
       ref={ref}
@@ -77,33 +98,23 @@ export function ImagineIf({ t }: { t: Dict }) {
       style={{ height: `${cards.length * 100}vh` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Photographic backdrop, panning with scroll; crossfades people2 -> people mid-scroll. */}
-        {(() => {
-          const imgClass = isMobile
-            ? "absolute inset-y-0 left-0 h-full w-[150vw] max-w-none object-cover"
-            : "absolute inset-x-0 top-0 h-[150vh] w-full object-cover";
-          const pan = isMobile ? { x: bgX } : { y: bgY };
-          return (
-            <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <motion.img
-                src="/people2.jpg"
-                alt=""
-                aria-hidden="true"
-                style={pan}
-                className={imgClass}
-              />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <motion.img
-                src="/people.jpg"
-                alt=""
-                aria-hidden="true"
-                style={{ ...pan, opacity: isMobile ? 0 : bg2Opacity }}
-                className={imgClass}
-              />
-            </>
-          );
-        })()}
+        {/* Photographic backdrop, panning with scroll; crossfades people2 -> people. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <motion.img
+          src="/people2.jpg"
+          alt=""
+          aria-hidden="true"
+          style={pan}
+          className={imgClass}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <motion.img
+          src="/people.jpg"
+          alt=""
+          aria-hidden="true"
+          {...overlayProps}
+          className={imgClass}
+        />
         <div className="absolute inset-0 bg-[#13132D]/38" />
 
         <div className="relative z-10 flex h-full flex-col items-center justify-center [isolation:isolate]">

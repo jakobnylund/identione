@@ -16,7 +16,7 @@ export function CallToAction({ t }: { t: Dict }) {
         </div>
 
         <Reveal className="col-span-12 lg:col-span-9">
-          <h2 className="headline-xl max-w-[16ch] text-text">
+          <h2 className="headline-lg max-w-[16ch] text-text">
             {t.cta.heading}
           </h2>
         </Reveal>

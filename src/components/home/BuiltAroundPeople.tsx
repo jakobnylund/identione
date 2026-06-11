@@ -44,7 +44,7 @@ export function BuiltAroundPeople({ t }: { t: Dict }) {
 
         {/* Key statement — full width, the emotional anchor. */}
         <Reveal className="col-span-12 mt-14 md:mt-24 lg:col-span-9">
-          <p className="headline-xl max-w-[20ch] text-accent-soft">
+          <p className="headline-lg max-w-[20ch] text-accent-soft">
             {t.people.statement}
           </p>
         </Reveal>

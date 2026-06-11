@@ -18,7 +18,7 @@ export function Problem({ t }: { t: Dict }) {
               <Reveal
                 as="p"
                 delay={i * 0.15 + 0.15}
-                className="headline-sm mt-6 text-text"
+                className="mt-6 font-sans text-xl leading-snug tracking-tight text-text md:text-2xl"
               >
                 {q}
               </Reveal>

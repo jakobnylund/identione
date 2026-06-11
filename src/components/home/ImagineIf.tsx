@@ -28,7 +28,7 @@ export function ImagineIf({ t }: { t: Dict }) {
   // (the wide image is cropped sideways on narrow viewports, so x reveals more).
   const bgY = useTransform(scrollYProgress, [0, 1], ["0vh", "-50vh"]);
   const bgX = useTransform(scrollYProgress, [0, 1], ["0vw", "-50vw"]);
-  // Crossfade the backdrop from people.jpg to people2.jpg around mid-scroll.
+  // Crossfade the backdrop from people2.jpg to people.jpg around mid-scroll.
   const bg2Opacity = useTransform(scrollYProgress, [0.42, 0.6], [0, 1]);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -48,7 +48,7 @@ export function ImagineIf({ t }: { t: Dict }) {
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/people.jpg"
+          src="/people2.jpg"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover"
@@ -77,7 +77,7 @@ export function ImagineIf({ t }: { t: Dict }) {
       style={{ height: `${cards.length * 100}vh` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Photographic backdrop, panning with scroll; crossfades people -> people2 mid-scroll. */}
+        {/* Photographic backdrop, panning with scroll; crossfades people2 -> people mid-scroll. */}
         {(() => {
           const imgClass = isMobile
             ? "absolute inset-y-0 left-0 h-full w-[150vw] max-w-none object-cover"
@@ -87,7 +87,7 @@ export function ImagineIf({ t }: { t: Dict }) {
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <motion.img
-                src="/people.jpg"
+                src="/people2.jpg"
                 alt=""
                 aria-hidden="true"
                 style={pan}
@@ -95,7 +95,7 @@ export function ImagineIf({ t }: { t: Dict }) {
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <motion.img
-                src="/people2.jpg"
+                src="/people.jpg"
                 alt=""
                 aria-hidden="true"
                 style={{ ...pan, opacity: bg2Opacity }}

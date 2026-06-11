@@ -62,14 +62,19 @@ export function Footer({ locale }: { locale: Locale }) {
         <address className="col-span-12 mt-10 flex flex-col gap-5 not-italic md:col-span-3 md:col-start-9 md:mt-0">
           <p className="section-label">{sv ? "Kontor" : "Offices"}</p>
           {brand.offices.map((office) => (
-            <p
+            <a
               key={office.city}
-              className="text-sm leading-relaxed text-text-muted"
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                office.lines.join(", "),
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block text-sm leading-relaxed text-text-muted transition-colors hover:text-text"
             >
               <span className="text-text">{office.city}</span>
               <br />
               {office.lines.join(", ")}
-            </p>
+            </a>
           ))}
         </address>
       </div>

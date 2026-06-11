@@ -42,6 +42,9 @@ export async function generateMetadata({
     metadataBase: new URL("https://identione.com"),
     title: t.metadata.title,
     description: t.metadata.description,
+    // Don't let iOS Safari auto-link addresses/phones/emails inconsistently;
+    // we provide our own intentional links.
+    formatDetection: { telephone: false, address: false, email: false },
     alternates: {
       canonical: `/${rawLocale}`,
       languages: { en: "/en", sv: "/sv" },

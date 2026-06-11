@@ -1,0 +1,394 @@
+@import "tailwindcss";
+
+/* ── Identione design tokens ────────────────────────────────────────────────
+   Palette from the IdentiOne Brand Guidelines v1.0 (inspired by the northern
+   lights). Light theme is the default surface; the dark aurora theme is scoped
+   under `.theme-dark` (see bottom). Brand colours (accent/purple) stay constant
+   across both so they read consistently.
+
+   Brand palette:
+     IDENTIONE Black  #13132D    Dark Purple  #1F143C
+     Warm Purple      #3B0A7B    IDENTIONE Blue #1A61F9
+     Light Grey       #EDF2F8    White         #FFFFFF
+
+   Type: primary "Safiro" (headlines, Medium only) — a licensed font; drop the
+   files into /public/fonts and wire up @font-face when available. Until then
+   --font-display falls back to Inter, the secondary brand face used everywhere.
+─────────────────────────────────────────────────────────────────────────── */
+@theme {
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #EDF2F8;
+  --color-surface-accent: #E2E8F2;
+  --color-border: #DCE3EE;
+  --color-border-hover: #C7D1E2;
+  --color-text: #13132D;
+  --color-text-muted: #5A5A72;
+  --color-text-faint: #9A9AAE;
+  --color-accent: #1A61F9;
+  --color-accent-deep: #0D4FD6;
+  --color-accent-soft: #A6C4FB;
+  --color-purple: #3B0A7B;
+  --color-purple-deep: #1F143C;
+  --color-dark: #13132D;
+
+  --font-sans: var(--font-inter), "Helvetica Neue", "Helvetica", "Arial", ui-sans-serif, system-ui, sans-serif;
+  /* Display = primary brand face Safiro. Until the licensed files are added,
+     it falls back to Space Grotesk (loaded via next/font), the closest premium
+     stand-in for Safiro's futuristic, open-aperture geometric forms. */
+  --font-display: "Safiro", var(--font-outfit), var(--font-inter), "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", ui-monospace, monospace;
+}
+
+/* Safiro (primary display face) is licensed and not bundled. When the files
+   land, add an @font-face here for font-family "Safiro" pointing at
+   /fonts/Safiro-Medium.woff2 and it takes over --font-display automatically.
+   Until then Space Grotesk (next/font) is the active display face. */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Light base. The page runs a deliberate light/dark rhythm: dark premium
+   environments (.theme-dark / .aurora / .aurora-purple / photo) interleaved
+   with light breather sections, on a straight, coherent grid. */
+body {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  /* Body tracking 0 per the brand type hierarchy. Negative tracking is applied
+     only to display/headline classes below. */
+  letter-spacing: 0;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: white;
+}
+
+/* Visible keyboard focus everywhere — purely for accessibility. Mouse users
+   never see this because of :focus-visible. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* The fixed header is ~3.5rem tall — offset anchor targets so the headline
+   isn't hidden under it when clicking an in-page link. */
+[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Visually hidden but focusable — used by the skip-to-content link. */
+.sr-skip {
+  position: absolute;
+  inset-inline-start: 1rem;
+  top: 1rem;
+  z-index: 100;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-text);
+  color: var(--color-surface);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  transform: translateY(-200%);
+  transition: transform 0.2s ease;
+}
+.sr-skip:focus,
+.sr-skip:focus-visible {
+  transform: translateY(0);
+  outline: none;
+}
+
+/* Subtle film grain on dark surfaces. Encoded inline so we don't need an
+   extra request. `isolation: isolate` + `z-index: -1` puts the noise behind
+   every child without forcing positioning on them. */
+/* Single fixed grain overlay — one pointer-events-none layer over the whole
+   viewport (perf-safe per 6.E; never on scrolling containers). */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 200px 200px;
+}
+
+/* Scroll-reveal: progressive enhancement. Content is visible by default
+   (no-JS, SEO, deep-links, reduced-motion all safe). The `scripting: enabled`
+   media feature gates the hidden start state to JS-capable browsers — no
+   pre-paint class on <html>, so no hydration mismatch. Items reveal when the
+   Reveal component adds .is-visible on intersection. */
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  /* rise (default) — fade + translateY */
+  [data-reveal="rise"] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  [data-reveal="rise"].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* line — a hairline draws in from the left */
+  [data-reveal="line"] {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  [data-reveal="line"].is-visible {
+    transform: scaleX(1);
+  }
+
+  /* clip — content wipes up behind a mask */
+  [data-reveal="clip"] {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  [data-reveal="clip"].is-visible {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 220px 220px;
+}
+
+/* Aurora gradient — the brand's signature northern-lights environment. Leads
+   with Identione Black → Dark Purple depth, washed with Warm Purple (top-left)
+   and Identione Blue (bottom-right), echoing the brand gradient video. Apply to
+   a dark section as a background layer. */
+.aurora {
+  background:
+    radial-gradient(120% 95% at 12% -5%, rgba(59, 10, 123, 0.60) 0%, transparent 55%),
+    radial-gradient(115% 90% at 100% 105%, rgba(26, 97, 249, 0.32) 0%, transparent 55%),
+    linear-gradient(158deg, #13132D 0%, #1F143C 52%, #13132D 100%);
+}
+
+/* Warm-purple environment — the brand's third signature surface (alongside navy
+   and light). Dark Purple → Warm Purple depth with a blue edge wash. Pair with
+   .theme-dark so text tokens flip to light. */
+.aurora-purple {
+  background:
+    radial-gradient(110% 90% at 85% 110%, rgba(26, 97, 249, 0.28) 0%, transparent 50%),
+    linear-gradient(150deg, #1F143C 0%, #3B0A7B 60%, #2A0B57 100%);
+}
+
+/* Tabular figures — for metrics, percentages, numeric ranges. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+/* Small purple marker rectangle before every section eyebrow. */
+.section-label::before {
+  content: "";
+  display: block;
+  width: 1.4rem;
+  height: 0.5rem;
+  flex: none;
+  background: var(--color-purple);
+}
+
+/* Editorial section index — a small monospaced run-in number paired with the
+   section label, e.g. "01 — The Problem". Borrowed from print layout. */
+.section-index {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+}
+
+/* Thin hairline rule — the editorial divider between sections/blocks. */
+.hairline {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ── Type hierarchy ─────────────────────────────────────────────────────────
+   Mirrors the brand guidelines' Type Hierarchy page:
+     Headline Large  — display (Safiro/Inter Medium), 100% line-height, -25 tracking
+     Headline Small  — Inter Regular,                 110% line-height, -10 tracking
+     Subheadline     — Inter Regular,                 120% line-height,  -5 tracking
+     Body            — Inter Regular, 0 tracking (set on body, eased to 1.55 for screen)
+   Aim for a ~200% size jump between display and body. Fewer sizes, stronger
+   impression. Display weight is Medium only (Safiro's single allowed weight). */
+.headline-xl {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 7vw, 6rem);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.headline-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+/* Headline Small — display font, regular weight. The third and smallest step
+   of the heading scale (h3 / large editorial items: questions, cards, titles).
+   Only three heading sizes exist: headline-xl, headline-lg, headline-sm. */
+.headline-sm {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* Subheadline / lede — large intro paragraph, Inter Regular, 120% line-height. */
+.subhead {
+  font-family: var(--font-sans);
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: var(--color-text-muted);
+}
+
+/* Lead accent — the signature treatment from the colour-usage examples: the
+   opening phrase of a headline set in Identione Blue, the remainder in the
+   text colour. Apply to a <span> wrapping the lead words. */
+.lead-accent {
+  color: var(--color-accent);
+}
+
+/* Full-width page grid: 12 columns with generous gutters, capped at ultrawide */
+.page-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+  max-width: 2200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.5rem, 4vw, 6rem);
+  padding-right: clamp(1.5rem, 4vw, 6rem);
+}
+
+/* Constrain loose content blocks to the same max */
+.page-contain {
+  max-width: 2200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.5rem, 4vw, 6rem);
+  padding-right: clamp(1.5rem, 4vw, 6rem);
+}
+
+/* Subtle hover for clickable cards. */
+.card-link {
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.card-link:hover {
+  border-color: var(--color-border-hover);
+  transform: translateY(-2px);
+}
+
+/* Bold hover fill effect */
+.hover-fill {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.hover-fill:hover {
+  background-color: var(--color-accent);
+  color: white;
+}
+.hover-fill:hover .section-label {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+.hover-fill:hover .text-text-muted {
+  color: rgba(255, 255, 255, 0.7);
+}
+.hover-fill:hover .text-text-faint {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.horizontal-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.animate-blink {
+  animation: blink 1.05s steps(1) infinite;
+}
+
+/* Reduced-motion: kill all reveal/transition motion for users who ask for it.
+   The Reveal client component also checks this via framer-motion, but this is
+   the CSS belt-and-suspenders for anything animated purely in CSS. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Dark aurora theme scope ─────────────────────────────────────────────────
+   Overrides surface/text/border tokens for everything inside the wrapper, so
+   utilities like bg-surface, text-text-muted and border-border auto-flip
+   without rewriting components. Brand colours (accent, purple) stay constant. */
+.theme-dark {
+  --color-surface: #13132D;
+  --color-surface-muted: #1F143C;
+  --color-surface-accent: rgba(255, 255, 255, 0.06);
+  --color-border: rgba(255, 255, 255, 0.10);
+  --color-border-hover: rgba(255, 255, 255, 0.20);
+  --color-text: #FFFFFF;
+  --color-text-muted: rgba(255, 255, 255, 0.65);
+  --color-text-faint: rgba(255, 255, 255, 0.40);
+
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}

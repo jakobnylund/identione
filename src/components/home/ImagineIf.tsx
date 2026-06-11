@@ -28,6 +28,8 @@ export function ImagineIf({ t }: { t: Dict }) {
   // (the wide image is cropped sideways on narrow viewports, so x reveals more).
   const bgY = useTransform(scrollYProgress, [0, 1], ["0vh", "-50vh"]);
   const bgX = useTransform(scrollYProgress, [0, 1], ["0vw", "-50vw"]);
+  // Crossfade the backdrop from people.jpg to people2.jpg around mid-scroll.
+  const bg2Opacity = useTransform(scrollYProgress, [0.42, 0.6], [0, 1]);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -75,18 +77,33 @@ export function ImagineIf({ t }: { t: Dict }) {
       style={{ height: `${cards.length * 100}vh` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Photographic backdrop, panning vertically with scroll. */}
-        <motion.img
-          src="/people.jpg"
-          alt=""
-          aria-hidden="true"
-          style={isMobile ? { x: bgX } : { y: bgY }}
-          className={
-            isMobile
-              ? "absolute inset-y-0 left-0 h-full w-[150vw] max-w-none object-cover"
-              : "absolute inset-x-0 top-0 h-[150vh] w-full object-cover"
-          }
-        />
+        {/* Photographic backdrop, panning with scroll; crossfades people -> people2 mid-scroll. */}
+        {(() => {
+          const imgClass = isMobile
+            ? "absolute inset-y-0 left-0 h-full w-[150vw] max-w-none object-cover"
+            : "absolute inset-x-0 top-0 h-[150vh] w-full object-cover";
+          const pan = isMobile ? { x: bgX } : { y: bgY };
+          return (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <motion.img
+                src="/people.jpg"
+                alt=""
+                aria-hidden="true"
+                style={pan}
+                className={imgClass}
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <motion.img
+                src="/people2.jpg"
+                alt=""
+                aria-hidden="true"
+                style={{ ...pan, opacity: bg2Opacity }}
+                className={imgClass}
+              />
+            </>
+          );
+        })()}
         <div className="absolute inset-0 bg-[#13132D]/38" />
 
         <div className="relative z-10 flex h-full flex-col items-center justify-center [isolation:isolate]">

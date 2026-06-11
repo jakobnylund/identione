@@ -12,12 +12,13 @@ import {
 } from "framer-motion";
 import type { Dict } from "@/lib/i18n";
 
-// Imagine If as a dreamy, centered, pinned sequence over a photographic
-// backdrop. The background pans with scroll and crossfades people2 -> people.
-// Desktop scrubs the crossfade on scroll progress. Mobile uses a hysteresis
-// threshold (cross 0.55 to show, 0.45 to hide) + a timed fade, so the address
-// bar resizing the viewport mid-scroll cannot make it bounce. Statements are
-// scroll-scrubbed and dropped once past (display:none). Reduced-motion → static.
+// Imagine If: a dreamy, centered, pinned sequence over a photographic backdrop.
+// people is the always-painted BASE; people2 is an overlay that fades OUT to
+// reveal it. Putting the final image as the base means the end state survives
+// the sticky un-pin layer repaint (which otherwise dropped the overlay and
+// flashed the base back). Desktop scrubs the fade on scroll (soft); mobile uses
+// a hysteresis threshold + timed fade so address-bar resizes can't bounce it.
+// Statements are scroll-scrubbed and dropped once past (display:none).
 export function ImagineIf({ t }: { t: Dict }) {
   const reduce = useReducedMotion();
   const cards = t.imagine.cards;
@@ -26,11 +27,11 @@ export function ImagineIf({ t }: { t: Dict }) {
     target: ref,
     offset: ["start start", "end end"],
   });
-  // Pan the backdrop with scroll: vertically on desktop, horizontally on mobile
-  // (the wide image is cropped sideways on narrow viewports, so x reveals more).
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0vh", "-28vh"]);
-  const bgX = useTransform(scrollYProgress, [0, 1], ["0vw", "-28vw"]);
-  const bg2Opacity = useTransform(scrollYProgress, [0.47, 0.53], [0, 1]);
+  // Pan the backdrop with scroll: vertically on desktop, horizontally on mobile.
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0vh", "-50vh"]);
+  const bgX = useTransform(scrollYProgress, [0, 1], ["0vw", "-50vw"]);
+  // people2 overlay fades OUT mid-scroll, revealing the people base beneath.
+  const overlayOpacity = useTransform(scrollYProgress, [0.42, 0.6], [1, 0]);
   const [isMobile, setIsMobile] = useState(false);
   const [pastMid, setPastMid] = useState(false);
 
@@ -43,7 +44,7 @@ export function ImagineIf({ t }: { t: Dict }) {
   }, []);
 
   // Hysteresis so jitter around the midpoint (mobile address-bar resize) can't
-  // flip the crossfade back and forth.
+  // flip the fade back and forth.
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setPastMid((p) => (v > 0.55 ? true : v < 0.45 ? false : p));
   });
@@ -81,14 +82,14 @@ export function ImagineIf({ t }: { t: Dict }) {
     ? "absolute inset-y-0 left-0 h-full w-[150vw] max-w-none object-cover"
     : "absolute inset-x-0 top-0 h-[150vh] w-full object-cover";
   const pan = isMobile ? { x: bgX } : { y: bgY };
-  // Overlay (people.jpg) crossfade: scrubbed on desktop, timed+hysteresis on mobile.
+  // people2 overlay: scrubbed fade-out on desktop, timed + hysteresis on mobile.
   const overlayProps = isMobile
     ? {
         style: pan,
-        animate: { opacity: pastMid ? 1 : 0 },
+        animate: { opacity: pastMid ? 0 : 1 },
         transition: { duration: 0.7, ease: "easeInOut" as const },
       }
-    : { style: { ...pan, opacity: bg2Opacity } };
+    : { style: { ...pan, opacity: overlayOpacity } };
 
   return (
     <section
@@ -98,18 +99,19 @@ export function ImagineIf({ t }: { t: Dict }) {
       style={{ height: `${cards.length * 100}vh` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Photographic backdrop, panning with scroll; crossfades people2 -> people. */}
+        {/* Base = people (the final image, always painted). */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <motion.img
-          src="/people2.jpg"
+          src="/people.jpg"
           alt=""
           aria-hidden="true"
           style={pan}
           className={imgClass}
         />
+        {/* Overlay = people2, fades out to reveal people. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <motion.img
-          src="/people.jpg"
+          src="/people2.jpg"
           alt=""
           aria-hidden="true"
           {...overlayProps}

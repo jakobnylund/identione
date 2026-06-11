@@ -8,5 +8,5 @@ export const brand = {
   address: "Skeppargatan 17, 114 52 Stockholm",
   country: "Sverige",
   linkedin: "https://www.linkedin.com/company/identione",
-  website: "https://identione.se",
+  website: "https://identione.com",
 };

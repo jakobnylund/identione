@@ -39,7 +39,7 @@ export async function generateMetadata({
   if (!isLocale(rawLocale)) return {};
   const { t } = getServerDict(rawLocale);
   return {
-    metadataBase: new URL("https://identione.se"),
+    metadataBase: new URL("https://identione.com"),
     title: t.metadata.title,
     description: t.metadata.description,
     alternates: {

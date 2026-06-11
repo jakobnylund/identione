@@ -39,10 +39,20 @@
   --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", ui-monospace, monospace;
 }
 
-/* Safiro (primary display face) is licensed and not bundled. When the files
-   land, add an @font-face here for font-family "Safiro" pointing at
-   /fonts/Safiro-Medium.woff2 and it takes over --font-display automatically.
-   Until then Space Grotesk (next/font) is the active display face. */
+/* Safiro — the primary brand display face, self-hosted so every visitor gets
+   the real font (not just machines with it installed). It is first in
+   --font-display, so it now drives all headlines. Only Medium ships, so the
+   100-900 range maps every requested weight to this one file (no fake-weight
+   synthesis). Outfit (next/font) stays as the swap/fallback face. */
+@font-face {
+  font-family: "Safiro";
+  src:
+    url("/fonts/safiro-medium-webfont.woff2") format("woff2"),
+    url("/fonts/safiro-medium-webfont.woff") format("woff");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 html {
   scroll-behavior: smooth;

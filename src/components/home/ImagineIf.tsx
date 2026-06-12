@@ -32,6 +32,8 @@ export function ImagineIf({ t }: { t: Dict }) {
   const bgX = useTransform(scrollYProgress, [0, 1], ["0vw", "-50vw"]);
   // people2 overlay fades OUT mid-scroll, revealing the people base beneath.
   const overlayOpacity = useTransform(scrollYProgress, [0.42, 0.6], [1, 0]);
+  // "More to scroll" hint fades away as the section nears its end.
+  const hintOpacity = useTransform(scrollYProgress, [0.82, 0.96], [1, 0]);
   const [isMobile, setIsMobile] = useState(false);
   const [pastMid, setPastMid] = useState(false);
 
@@ -132,6 +134,28 @@ export function ImagineIf({ t }: { t: Dict }) {
             ))}
           </div>
         </div>
+
+        {/* Hint that there is more to scroll within this pinned section. */}
+        <motion.div
+          aria-hidden="true"
+          style={{ opacity: hintOpacity }}
+          className="pointer-events-none absolute inset-x-0 bottom-10 z-20 flex justify-center text-white/55"
+        >
+          <span className="scroll-hint">
+            <svg
+              width="26"
+              height="26"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </span>
+        </motion.div>
       </div>
     </section>
   );

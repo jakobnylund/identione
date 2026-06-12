@@ -371,6 +371,17 @@ body {
   animation: blink 1.05s steps(1) infinite;
 }
 
+/* Gentle bob for the "more to scroll" hint on pinned sections. */
+@keyframes scroll-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(7px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-hint {
+    animation: scroll-bob 1.7s ease-in-out infinite;
+  }
+}
+
 /* Reduced-motion: kill all reveal/transition motion for users who ask for it.
    The Reveal client component also checks this via framer-motion, but this is
    the CSS belt-and-suspenders for anything animated purely in CSS. */

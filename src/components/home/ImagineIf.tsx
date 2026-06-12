@@ -135,6 +135,14 @@ export function ImagineIf({ t }: { t: Dict }) {
           </div>
         </div>
 
+        {/* Scroll progress line — fills as you move through the pinned section. */}
+        <div className="pointer-events-none absolute right-5 top-1/2 z-20 h-32 w-px -translate-y-1/2 overflow-hidden bg-white/15 md:right-8 md:h-44">
+          <motion.div
+            className="absolute inset-x-0 top-0 h-full origin-top bg-white/70"
+            style={{ scaleY: scrollYProgress }}
+          />
+        </div>
+
         {/* Hint that there is more to scroll within this pinned section. */}
         <motion.div
           aria-hidden="true"
@@ -190,14 +198,18 @@ function ImagineLine({
   const opacityOut = first ? [1, 1, 0] : last ? [0, 1, 1] : [0, 1, 1, 0];
   const blurOut = first ? [0, 0, 12] : last ? [12, 0, 0] : [12, 0, 0, 12];
   const scaleOut = first
-    ? [1, 1, 1.06]
+    ? [1, 1, 1.04]
     : last
-      ? [1.06, 1, 1]
-      : [1.06, 1, 1, 1.06];
+      ? [1.04, 1, 1]
+      : [1.04, 1, 1, 1.04];
+  // Vertical drift so the section visibly moves with the scroll (enter from
+  // below, leave upward) instead of only crossfading in place.
+  const yOut = first ? [0, 0, -90] : last ? [90, 0, 0] : [90, 0, 0, -90];
 
   const opacity = useTransform(progress, range, opacityOut);
   const blur = useTransform(progress, range, blurOut);
   const scale = useTransform(progress, range, scaleOut);
+  const y = useTransform(progress, range, yOut);
   const filter = useMotionTemplate`blur(${blur}px)`;
   const display = useTransform(opacity, (v) => (v < 0.015 ? "none" : "block"));
 
@@ -206,6 +218,7 @@ function ImagineLine({
       style={{
         opacity,
         scale,
+        y,
         filter,
         display,
         gridArea: "1 / 1",

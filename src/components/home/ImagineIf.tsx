@@ -136,9 +136,9 @@ export function ImagineIf({ t }: { t: Dict }) {
         </div>
 
         {/* Scroll progress line — fills as you move through the pinned section. */}
-        <div className="pointer-events-none absolute right-5 top-1/2 z-20 h-32 w-px -translate-y-1/2 overflow-hidden bg-white/15 md:right-8 md:h-44">
+        <div className="pointer-events-none absolute right-5 top-1/2 z-20 h-32 w-1 -translate-y-1/2 overflow-hidden rounded-full bg-white/15 md:right-8 md:h-44">
           <motion.div
-            className="absolute inset-x-0 top-0 h-full origin-top bg-white/70"
+            className="absolute inset-x-0 top-0 h-full origin-top rounded-full bg-white/70"
             style={{ scaleY: scrollYProgress }}
           />
         </div>
@@ -151,12 +151,12 @@ export function ImagineIf({ t }: { t: Dict }) {
         >
           <span className="scroll-hint">
             <svg
-              width="26"
-              height="26"
+              width="34"
+              height="34"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="2.8"
               strokeLinecap="round"
               strokeLinejoin="round"
             >

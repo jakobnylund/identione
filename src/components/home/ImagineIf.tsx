@@ -19,8 +19,6 @@ export function ImagineIf({ t }: { t: Dict }) {
   });
   // people2 overlay fades out around the middle, revealing the people base.
   const overlayOpacity = useTransform(scrollYProgress, [0.4, 0.6], [1, 0]);
-  // "More to scroll" affordances, fading out as the section nears its end.
-  const hintOpacity = useTransform(scrollYProgress, [0.82, 0.96], [1, 0]);
 
   if (reduce) {
     return (
@@ -81,27 +79,6 @@ export function ImagineIf({ t }: { t: Dict }) {
           />
         </div>
 
-        {/* Bobbing down-chevron — fades out near the end. */}
-        <motion.div
-          aria-hidden="true"
-          style={{ opacity: hintOpacity }}
-          className="absolute inset-x-0 bottom-10 flex justify-center text-white/55"
-        >
-          <span className="scroll-hint">
-            <svg
-              width="34"
-              height="34"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </span>
-        </motion.div>
       </div>
 
       {/* Statements scroll over the fixed backdrop, one per screen, snapping. */}

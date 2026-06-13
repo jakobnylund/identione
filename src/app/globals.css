@@ -56,6 +56,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Gentle snap: only elements with scroll-snap-align (the Imagine If slides)
+     are targets, so the page settles on each statement there and scrolls
+     normally everywhere else. */
+  scroll-snap-type: y proximity;
 }
 
 /* Light base. The page runs a deliberate light/dark rhythm: dark premium

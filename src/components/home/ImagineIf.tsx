@@ -19,6 +19,8 @@ export function ImagineIf({ t }: { t: Dict }) {
   });
   // people2 overlay fades out around the middle, revealing the people base.
   const overlayOpacity = useTransform(scrollYProgress, [0.4, 0.6], [1, 0]);
+  // "More to scroll" affordances, fading out as the section nears its end.
+  const hintOpacity = useTransform(scrollYProgress, [0.82, 0.96], [1, 0]);
 
   if (reduce) {
     return (
@@ -70,6 +72,36 @@ export function ImagineIf({ t }: { t: Dict }) {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-[#13132D]/45" />
+
+        {/* Scroll progress line — fills as you move through the section. */}
+        <div className="absolute right-5 top-1/2 h-32 w-1 -translate-y-1/2 overflow-hidden rounded-full bg-white/15 md:right-8 md:h-44">
+          <motion.div
+            className="absolute inset-x-0 top-0 h-full origin-top rounded-full bg-white/70"
+            style={{ scaleY: scrollYProgress }}
+          />
+        </div>
+
+        {/* Bobbing down-chevron — fades out near the end. */}
+        <motion.div
+          aria-hidden="true"
+          style={{ opacity: hintOpacity }}
+          className="absolute inset-x-0 bottom-10 flex justify-center text-white/55"
+        >
+          <span className="scroll-hint">
+            <svg
+              width="34"
+              height="34"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </span>
+        </motion.div>
       </div>
 
       {/* Statements scroll over the fixed backdrop, one per screen, snapping. */}
